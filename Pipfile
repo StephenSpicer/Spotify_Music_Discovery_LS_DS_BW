@@ -15,6 +15,7 @@ gunicorn = "*"
 requests = "*"
 ipykernel = "*"
 matplotlib = "*"
+dash = "==1.19.0"
 
 [dev-packages]
 
