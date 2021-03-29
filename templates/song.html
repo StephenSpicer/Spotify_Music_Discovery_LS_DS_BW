@@ -1,0 +1,30 @@
+<!-- THIS IS FOR OUR SONG SELECTIONS PAGE  -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Project Title
+        </title>
+        <link rel="stylesheet" href="https://unpkg.com/picnic">
+    </head>
+
+    <body>
+        <article class="flex two" style="padding: 3em 1em">
+            {%  block content %}
+                <div>
+                    <h1>Enter a song:</h1>
+                    <form action="/song_selection" method="post">
+                        <input type="text" name="song_title" placeholder="Enter a song">
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+                <div>
+                    <h2>
+                        {{ song_title }}
+                    </h2>
+                </div>
+            {% endblock %}
+        </article>
+    </body>
+</html>
