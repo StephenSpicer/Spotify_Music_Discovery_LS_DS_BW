@@ -3,6 +3,7 @@ STUFF TOO IN A FEW DAYS OR SO
 """
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+# models import function
 
 
 # LETS GO
@@ -15,10 +16,15 @@ from flask_sqlalchemy import SQLAlchemy
 #     """
 app = Flask(__name__)
 # load_model = load('finalized_model.sav')
+# return app
 
 @app.route('/')
 def root():
-    """Home page"""
+    """
+    Welcomes user.
+    Gives information on what the app does.
+    Button to 'Get Started' will take user to /song_selection.
+    """
     return render_template('home.html')
 
 @app.route('/about')
@@ -26,12 +32,21 @@ def about():
     """About the app and creators"""
     return "This is what it's all about!"
 
-@app.route('/song_selection')
+@app.route('/song_selection', methods=["POST"])
 def song_selection():
-    """Retrieves song selection"""
-    return "Enter a song:"
+    """
+    Inputs user's song of choice.
+    Moves user to recommendations page.
+    """
+    # Call model predict on song
+    song_title = request.values['song_title']
+    return render_template('song.html',
+                           song_title=song_title)
+
 
 @app.route('/recommendations')
 def recommendations():
-    """Returns song recommendations"""
-    return "Here are some more songs just like it!"
+    """
+    Returns song recommendations based on user's song of choice
+    """
+    return render_template('recommendations.html')

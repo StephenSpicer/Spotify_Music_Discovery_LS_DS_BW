@@ -1,0 +1,24 @@
+<!-- THIS IS FOR OUR RECOMMENDATIONS PAGE  -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Project Title
+        </title>
+        <link rel="stylesheet" href="https://unpkg.com/picnic">
+    </head>
+
+    <body>
+        <article class="flex two" style="padding: 3em 1em">
+            {%  block content %}
+                <div>
+                    <h1>
+                        Songs similar to {{ song_title }}:
+                    </h1>
+                </div>
+
+            {% endblock %}
+        </article>
+    </body>
+</html>
