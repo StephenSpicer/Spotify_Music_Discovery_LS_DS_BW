@@ -3,7 +3,9 @@ STUFF TOO IN A FEW DAYS OR SO
 """
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-# models import function
+# functions import function
+# read in file, wrangle, key
+# create model
 
 
 # LETS GO
@@ -18,6 +20,7 @@ app = Flask(__name__)
 # load_model = load('finalized_model.sav')
 # return app
 
+
 @app.route('/')
 def root():
     """
@@ -27,26 +30,32 @@ def root():
     """
     return render_template('home.html')
 
+
 @app.route('/about')
 def about():
     """About the app and creators"""
     return "This is what it's all about!"
 
-@app.route('/song_selection', methods=["POST"])
+
+@app.route('/song_selection')
 def song_selection():
     """
     Inputs user's song of choice.
     Moves user to recommendations page.
     """
     # Call model predict on song
-    song_title = request.values['song_title']
-    return render_template('song.html',
-                           song_title=song_title)
+    return render_template('song.html')
 
 
-@app.route('/recommendations')
+
+@app.route('/recommendations', methods=['POST'])
 def recommendations():
     """
     Returns song recommendations based on user's song of choice
     """
-    return render_template('recommendations.html')
+    fake_suggestions = ["Song 1 - Artist 1", "Song 2 - Artist 2",
+                        "Song 3 - Artist 3", "Song 4 - Artist 4"]
+    song_title = request.values['song_title']
+    return render_template('recommendations.html',
+                           song_title=song_title,
+                           suggestions=fake_suggestions)

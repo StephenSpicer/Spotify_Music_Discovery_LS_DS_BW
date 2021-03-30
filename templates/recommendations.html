@@ -10,15 +10,20 @@
     </head>
 
     <body>
-        <article class="flex two" style="padding: 3em 1em">
             {%  block content %}
                 <div>
                     <h1>
-                        Songs similar to {{ song_title }}:
+                        Songs similar to
+                        <br> {{ song_title }}:
                     </h1>
                 </div>
-
+                <ul>
+                    {% for song in suggestions %}
+                    <li>
+                        {{ song }}
+                    </li>
+                    {% endfor %}
+                </ul>
             {% endblock %}
-        </article>
     </body>
 </html>
