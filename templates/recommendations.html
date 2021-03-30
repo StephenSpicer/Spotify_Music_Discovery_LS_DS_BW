@@ -14,10 +14,17 @@
             {%  block content %}
                 <div>
                     <h1>
-                        Songs similar to {{ song_title }}:
+                        Songs similar to
+                        <br> {{ song_title }}:
                     </h1>
                 </div>
-
+                <div>
+                    {% for song in suggestions %}
+                    <span class="stack">
+                        {{ song }}
+                    </span>
+                    {% endfor %}
+                </div>
             {% endblock %}
         </article>
     </body>
