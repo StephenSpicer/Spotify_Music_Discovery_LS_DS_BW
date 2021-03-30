@@ -3,6 +3,7 @@ STUFF TOO IN A FEW DAYS OR SO
 """
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from functions import wrangle, the_key, create_fit_model, recommended_songs
 # functions import function
 # read in file, wrangle, key
 # create model
@@ -17,7 +18,15 @@ from flask_sqlalchemy import SQLAlchemy
 #     of interactive web application.
 #     """
 app = Flask(__name__)
-# load_model = load('finalized_model.sav')
+
+# create song features dataframe for model
+features_df = wrangle("./data/data.csv")
+# create key dataframe of id and song_artist
+key = the_key("./data/data.csv")
+# instantiate model
+knn_spotify = create_fit_model(features_df)
+
+
 # return app
 
 
@@ -53,9 +62,12 @@ def recommendations():
     """
     Returns song recommendations based on user's song of choice
     """
-    fake_suggestions = ["Song 1 - Artist 1", "Song 2 - Artist 2",
-                        "Song 3 - Artist 3", "Song 4 - Artist 4"]
     song_title = request.values['song_title']
+    suggestions = recommended_songs(str(song_title),
+                                    features_df,
+                                    knn_spotify,
+                                    "./data/data.csv")
+    print(type(suggestions))
     return render_template('recommendations.html',
                            song_title=song_title,
-                           suggestions=fake_suggestions)
+                           suggestions=suggestions)

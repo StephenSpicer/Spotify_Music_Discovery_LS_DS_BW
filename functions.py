@@ -2,6 +2,8 @@
 Functions for data wrangling, creating the model, and returning song
 recommendations.
 """
+import pandas as pd
+from sklearn.neighbors import NearestNeighbors
 
 
 # Data Wrangle function:
@@ -58,7 +60,7 @@ def create_fit_model(features_df):
     """
     model = NearestNeighbors(n_neighbors=10,
                              n_jobs=-1)
-    knn_spotify = model.fit(x)
+    knn_spotify = model.fit(features_df)
     return knn_spotify
 
 
@@ -66,7 +68,7 @@ def create_fit_model(features_df):
 # set the function to only ask for user input, and we can give instructions
 # on the webpage for the user to put in the name of the song and artist,
 # or any part of either.
-def recommended_songs(user_input):
+def recommended_songs(user_input, features_df, knn_spotify, filepath):
     """
     Takes in a user_input (song/artist).
 
@@ -74,13 +76,13 @@ def recommended_songs(user_input):
     """
     # making user input lower to not worry about capitalizations
     user_input = user_input.lower()
-    key = the_key(data_path)
+    key = the_key(filepath)
     # find what name_artist combo contains the user_input:
     selected_song = key.loc[key.str.contains(user_input)]
     # search the key df and return the song id
     song_id = selected_song.index.tolist()
     # feed the song id into the model
-    song_row = x.loc[song_id, :]
+    song_row = features_df.loc[song_id, :]
     # model finds the NN and gives you back song id
     neigh_dist, neigh_index = knn_spotify.kneighbors(song_row)
     # random nn
@@ -89,7 +91,7 @@ def recommended_songs(user_input):
     # converting list to df for easier access
     recom_songs = key.iloc[index].to_frame()
     # list of songs with no ID and formatted as title
-    recom_songs_list = recom_songs['name_artist'].to_string(index=False,
-                                                            header=False).title()
-    return print(
-        f'Here are 10 songs similar to {user_input.title()}:\n{recom_songs_list}')
+    recom_songs_list = recom_songs['name_artist'].to_list()
+    for i in range(len(recom_songs_list)):
+        recom_songs_list[i] = recom_songs_list[i].title()
+    return recom_songs_list
