@@ -10,7 +10,6 @@
     </head>
 
     <body>
-        <article class="flex two" style="padding: 3em 1em">
             {%  block content %}
                 <div>
                     <h1>
@@ -18,14 +17,13 @@
                         <br> {{ song_title }}:
                     </h1>
                 </div>
-                <div>
+                <ul>
                     {% for song in suggestions %}
-                    <span class="stack">
+                    <li>
                         {{ song }}
-                    </span>
+                    </li>
                     {% endfor %}
-                </div>
+                </ul>
             {% endblock %}
-        </article>
     </body>
 </html>

@@ -3,7 +3,9 @@ STUFF TOO IN A FEW DAYS OR SO
 """
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-# models import function
+# functions import function
+# read in file, wrangle, key
+# create model
 
 
 # LETS GO
