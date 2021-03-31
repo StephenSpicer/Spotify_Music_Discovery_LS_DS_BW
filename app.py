@@ -4,12 +4,6 @@ STUFF TOO IN A FEW DAYS OR SO
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from functions import wrangle, the_key, create_fit_model, recommended_songs
-# functions import function
-# read in file, wrangle, key
-# create model
-
-
-# LETS GO
 
 # def create_app():
 #     """
@@ -17,17 +11,16 @@ from functions import wrangle, the_key, create_fit_model, recommended_songs
 #     Contains assortment of functions which control the inputs and outputs
 #     of interactive web application.
 #     """
+# return app
 app = Flask(__name__)
 
+data_path = 'https://raw.githubusercontent.com/StephenSpicer/Spotify_Music_Discovery_LS_DS_BW/main/data/data.csv'
 # create song features dataframe for model
-features_df = wrangle("./data/data.csv")
+features_df = wrangle(data_path)
 # create key dataframe of id and song_artist
-key = the_key("./data/data.csv")
+key = the_key(data_path)
 # instantiate model
 knn_spotify = create_fit_model(features_df)
-
-
-# return app
 
 
 @app.route('/')
@@ -66,8 +59,10 @@ def recommendations():
     suggestions = recommended_songs(str(song_title),
                                     features_df,
                                     knn_spotify,
-                                    "./data/data.csv")
-    print(type(suggestions))
+                                    data_path)
     return render_template('recommendations.html',
                            song_title=song_title,
                            suggestions=suggestions)
+
+if __name__ == '__main__':
+    app.run(debug=True)    # Can probably remove debug=True
